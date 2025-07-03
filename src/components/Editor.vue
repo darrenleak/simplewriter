@@ -14,6 +14,7 @@ const markdown = ref('')
 const parsed = ref('')
 const showPreview = ref(false)
 const fontSize = ref(24)
+const fullScreen = ref(false)
 const style = computed(() => ({ 
   display: 'flex', 
   flex: 1,
@@ -63,6 +64,10 @@ function toggleShowSettings() {
           <label for="fontSize">Font size</label>
           <input type="number" id="fontSize" class="text-input" v-model.number="fontSize" />
         </div>
+        <div class="settings-item">
+          <label for="fullScreen">Full screen</label>
+          <input type="checkbox" id="fullScreen" class="text-input" v-model="fullScreen" />
+        </div>
       </div>
     </div>
     <div class="container">
@@ -85,56 +90,113 @@ function toggleShowSettings() {
 </template>
 
 <style>
+/* Import modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 .simple-writer-main {
   display: flex;
   flex-direction: row;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .settings-panel {
   display: flex;
   flex-direction: column;
   flex: 1.5;
+  box-sizing: border-box;
 }
 
 .show-settings {
   display: flex;
   flex-direction: column;
   padding: 1em 0 1em 1em;
+  box-sizing: border-box;
 }
 
 .settings-container {
-  height: calc(100vh - 4em);
+  height: calc(100vh - 4.1em);
+  display: flex;
+  flex-direction: column;
+  padding-left: 1em;
   padding-right: 1em;
+  box-sizing: border-box;
 }
 
 .settings-item {
-  margin: 1em 0;
+  margin: 0.5em 0 0 0.5em;
   display: flex;
   height: 3em;
   padding-left: 1em;
+  padding-right: 1em;
   user-select: none;
   align-items: center;
-  background: rgb(245, 245, 245);
+  background: rgb(250, 250, 250);
+  border-radius: 8px;
+  border: 1px solid rgb(240, 240, 240);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.settings-item:hover {
+  background: rgb(248, 248, 248);
+  border-color: rgb(220, 220, 220);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 label {
   flex: 3;
   align-content: center;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgb(60, 60, 60);
+  letter-spacing: 0.01em;
+  box-sizing: border-box;
 }
 
 .text-input {
   width: 4em;
   height: 25px;
   margin: 0;
-  padding: 0;
+  padding: 0 8px;
   text-align: center;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: rgb(99, 102, 241);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.text-input:hover {
+  border-color: rgb(180, 180, 180);
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: rgb(99, 102, 241);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:hover {
+  transform: scale(1.1);
 }
 
 .container {
   display: flex;
   flex: 12;
   padding: 4em 0 3em 0;
-  box-sizing: border-box;
 }
 
 .editor-component {
@@ -142,7 +204,7 @@ label {
   width: 48%;
   height: calc(100vh - 7em);
   margin: 0 auto;
-  /* border: 1px solid rgb(240, 240, 240); */
+  box-sizing: border-box;
 }
 
 .editor-input {
@@ -155,12 +217,14 @@ label {
   border: 1px solid rgb(240, 240, 240);
   padding: 1em;
   box-sizing: border-box;
+  border-radius: 8px;
 }
 
 .parsed-markdown {
   overflow-y: auto;
   flex: 1;
   background-color: rgb(252, 252, 252);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .cm-focused {
@@ -168,16 +232,32 @@ label {
 }
 
 .hamburger-menu {
+  flex: 1;
+  width: 1.5em;
   display: flex;
   flex-direction: column;
   gap: 4px;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
 }
 
 .hamburger-menu span {
-  width: 18px;
-  height: 2px;
+  width: 24px;
+  height: 3px;
   background: #667eea;
   border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.hamburger-menu:hover span {
+  background: #5a67d8;
+}
+
+/* CodeMirror font styling */
+.code-mirror {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace !important;
 }
 </style>

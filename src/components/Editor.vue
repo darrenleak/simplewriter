@@ -1,6 +1,6 @@
 <script setup>
 import { Marked } from 'marked'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 // import 'github-markdown-css/github-markdown-light.css'
 import { Codemirror } from 'vue-codemirror'
 import { EditorConfig } from '@/general/EditorConfig'
@@ -31,6 +31,10 @@ function textInputChanged(value) {
 function toggleShowSettings() {
   showSettings.value = !showSettings.value
 }
+
+watch(fullScreen, (newValue) => {
+  
+})
 
 </script>
 <template>

@@ -1,12 +1,11 @@
 import { vim } from "@replit/codemirror-vim"
-import { highlightActiveLine, dropCursor, rectangularSelection } from "@codemirror/view"
+import { dropCursor, EditorView } from "@codemirror/view"
 import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from "@codemirror/language"
 import { closeBrackets } from "@codemirror/autocomplete"
 import { minimalSetup } from "codemirror"
 import { highlightSelectionMatches } from "@codemirror/search"
-import { markdownLanguage, markdown } from "@codemirror/lang-markdown"
+import { markdown } from "@codemirror/lang-markdown"
 import { languages } from "@codemirror/language-data"
-import { javascript } from '@codemirror/lang-javascript'
 
 // tabSize.of(EditorState.tabSize.of(8))
 
@@ -36,6 +35,7 @@ export class EditorConfig {
   extensions() {
     const extensions: any[] = [
       minimalSetup,
+      EditorView.lineWrapping,
       bracketMatching(),
       closeBrackets(),
       // highlightActiveLine(),

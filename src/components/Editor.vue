@@ -14,7 +14,6 @@ const markdown = ref('')
 const parsed = ref('')
 const showPreview = ref(false)
 const fontSize = ref(24)
-const fullScreen = ref(false)
 const style = computed(() => ({ 
   display: 'flex', 
   flex: 1,
@@ -32,14 +31,10 @@ function toggleShowSettings() {
   showSettings.value = !showSettings.value
 }
 
-watch(fullScreen, (newValue) => {
-  
-})
-
 </script>
 <template>
   <div class="simple-writer-main">
-    <div class="settings-panel">
+    <div :class="showSettings ? 'settings-panel' : 'settings-panel-small'">
       <div class="show-settings">
         <div @click="toggleShowSettings" class="hamburger-menu">
           <span></span>
@@ -68,16 +63,13 @@ watch(fullScreen, (newValue) => {
           <label for="fontSize">Font size</label>
           <input type="number" id="fontSize" class="text-input" v-model.number="fontSize" />
         </div>
-        <div class="settings-item">
-          <label for="fullScreen">Full screen</label>
-          <input type="checkbox" id="fullScreen" class="text-input" v-model="fullScreen" />
-        </div>
       </div>
     </div>
     <div class="container">
       <div class="editor-component editor-input">
         <codemirror
           class="code-mirror"
+          placeholder="Start writing"
           :style="style"
           :autofocus="true"
           :indent-with-tab="config.indentWithTab"
@@ -107,6 +99,14 @@ watch(fullScreen, (newValue) => {
   display: flex;
   flex-direction: column;
   flex: 1.5;
+  min-width: 18em;
+  box-sizing: border-box;
+}
+
+.settings-panel-small {
+  display: flex;
+  flex-direction: column;
+  flex: 0.1;
   box-sizing: border-box;
 }
 
@@ -134,7 +134,7 @@ watch(fullScreen, (newValue) => {
   padding-right: 1em;
   user-select: none;
   align-items: center;
-  background: rgb(250, 250, 250);
+  /* background: rgb(250, 250, 250); */
   border-radius: 8px;
   border: 1px solid rgb(240, 240, 240);
   transition: all 0.2s ease;
@@ -176,7 +176,7 @@ label {
 
 .text-input:focus {
   outline: none;
-  border-color: rgb(99, 102, 241);
+  border-color: #5179ff;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
@@ -188,7 +188,7 @@ label {
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
-  accent-color: rgb(99, 102, 241);
+  accent-color: #5179ff;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -218,16 +218,15 @@ input[type="checkbox"]:hover {
 
 .preview-container {
   background-color: rgb(252, 252, 252);
-  border: 1px solid rgb(240, 240, 240);
+  border-left: 1px solid rgb(240, 240, 240);
   padding: 1em;
   box-sizing: border-box;
-  border-radius: 8px;
 }
 
 .parsed-markdown {
   overflow-y: auto;
   flex: 1;
-  background-color: rgb(252, 252, 252);
+  /* background-color: rgb(252, 252, 252); */
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -251,17 +250,25 @@ input[type="checkbox"]:hover {
 .hamburger-menu span {
   width: 24px;
   height: 3px;
-  background: #667eea;
+  background: #5179ff;
   border-radius: 2px;
   transition: all 0.2s ease;
 }
 
 .hamburger-menu:hover span {
-  background: #5a67d8;
+  background: #808080;
 }
 
 /* CodeMirror font styling */
 .code-mirror {
   font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', monospace !important;
+}
+
+/* Vim cursor styling - CodeMirror 6 */
+.cm-fat-cursor {
+  background-color: #5179ff !important;
+  color: white !important;
+  border: none !important;
+  outline: none !important;
 }
 </style>

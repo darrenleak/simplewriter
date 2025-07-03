@@ -35,8 +35,12 @@ function toggleShowSettings() {
 <template>
   <div class="simple-writer-main">
     <div class="settings-panel">
-      <div @click="toggleShowSettings" class="show-settings">
-        Show settings
+      <div class="show-settings">
+        <div @click="toggleShowSettings" class="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
       <div v-if="showSettings" class="settings-container">
         <div class="settings-item">
@@ -94,21 +98,23 @@ function toggleShowSettings() {
 
 .show-settings {
   display: flex;
-  height: 4em;
+  flex-direction: column;
+  padding: 1em 0 1em 1em;
 }
 
 .settings-container {
   height: calc(100vh - 4em);
-  background-color: rgb(240, 240, 240);
   padding-right: 1em;
 }
 
 .settings-item {
+  margin: 1em 0;
   display: flex;
   height: 3em;
   padding-left: 1em;
   user-select: none;
   align-items: center;
+  background: rgb(245, 245, 245);
 }
 
 label {
@@ -159,5 +165,19 @@ label {
 
 .cm-focused {
   outline: 0 !important;
+}
+
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hamburger-menu span {
+  width: 18px;
+  height: 2px;
+  background: #667eea;
+  border-radius: 2px;
 }
 </style>

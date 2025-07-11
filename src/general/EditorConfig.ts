@@ -18,7 +18,7 @@ type EditorConfigInput = {
 const defaultConfig: EditorConfigInput = {
   tabSize: 2,
   indentWithTab: true,
-  useVim: false,
+  useVim: true,
 }
 
 export class EditorConfig {

@@ -9,9 +9,10 @@ import { EditorConfig } from '@/general/EditorConfig'
 // import { javascript } from '@codemirror/lang-javascript'
 // import { oneDark } from '@codemirror/theme-one-dark'
 
+const marked = new Marked()
 const showSettings = ref(false)
-const markdown = ref('')
-const parsed = ref('')
+const markdown = ref(localStorage.getItem('currentValue') ?? '')
+const parsed = ref(marked.parse(markdown.value))
 const showPreview = ref(false)
 const fontSize = ref(24)
 const style = computed(() => ({ 
@@ -23,9 +24,10 @@ const style = computed(() => ({
 const config = ref(new EditorConfig())
 const extensions = computed(() => config.value.extensions())
 
-function textInputChanged(value) {
-  parsed.value = new Marked().parse(value)
-}
+watch(markdown, (newValue) => {
+  parsed.value = marked.parse(newValue)
+  localStorage.setItem('currentValue', newValue)
+})
 
 function toggleShowSettings() {
   showSettings.value = !showSettings.value
@@ -70,12 +72,12 @@ function toggleShowSettings() {
         <codemirror
           class="code-mirror"
           placeholder="Start writing"
+          v-model="markdown"
           :style="style"
           :autofocus="true"
           :indent-with-tab="config.indentWithTab"
           :tab-size="config.tabSize"
           :extensions="extensions"
-          @change="textInputChanged"
         />
       </div>
       <div v-if="showPreview" class="editor-component preview-container">
